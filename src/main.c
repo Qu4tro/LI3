@@ -8,7 +8,7 @@ int main () {
 
     print_menu(); 	
     puts("Escolha uma opção:");
-    get_opcao();
+    handle_queries(get_opcao());
     return 1;
 
 }
