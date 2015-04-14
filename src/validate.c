@@ -14,7 +14,7 @@ size_t is_empty(char *line){
 }
 
 size_t validate_single_letter(char *line){
-
+    
     if (is_empty(line)){
         fprintf(stderr, "Input não pode ser vazio!\n");
         return 0;
@@ -24,7 +24,7 @@ size_t validate_single_letter(char *line){
         fprintf(stderr, "Tem de ser introduzida uma letra!\n");
         return 0;
     }
-    if (line[1] != '\n'){
+    if (line[1] != '\0'){
         fprintf(stderr, "Input tem de ser apenas uma letra!\n");
         return 0;
     }
@@ -142,7 +142,7 @@ size_t validate_price(char *line){
 
     for(i = 0; line[i] != '\0'; ++i){
 
-        if (!(line[i] > '0' && line[i] < '9')){
+        if (!(line[i] >= '0' && line[i] <= '9')){
             if (line[i] == '.'){
                 point_count++;
             } else {
@@ -175,10 +175,9 @@ size_t validate_compras(char *line){
     valid = validate_codigo_cliente(cc);
     valid &= validate_codigo_produto(cp);
     valid &= validate_unsigned(qnt);
-    valid &= validate_unsigned(qnt) && validate_range(atoi(mes), 1, 12);
+    valid &= validate_unsigned(qnt) && validate_range(1, 12, atoi(mes));
     valid &= validate_price(pr);
     valid &= validate_single_letter(prom) && (prom[0] == 'N' || prom[0] == 'P');
 
     return valid;
-
 }

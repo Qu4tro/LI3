@@ -57,14 +57,16 @@ int parse_compras_file(char* filename){
 
     char* codigo_cliente;
     char* codigo_produto;
-    float preco;
-    int quantidade;
-    int promocao;
-    int mes;
+    char* preco_s; float preco;
+    char* quantidade_s; int quantidade;
+    char* promocao_s; int promocao;
+    char* mes_s; int mes;
+
+    float t = 0;
 
     char line[MAXBUFFERCOMP];
+    char* to_check;
     FILE* fp;
-    char* temp;
 
     fp = fopen(filename, "r");
 
@@ -75,33 +77,34 @@ int parse_compras_file(char* filename){
 
     while(fgets(line, MAXBUFFERCOMP, fp)){
 
-        if (validate_compras(line)){
+        to_check = strdup(line);
+        if (validate_compras(to_check)){
 
             codigo_produto = strtok(line, " ");
-
-            temp = strtok(NULL, " ");
-            preco = atof(temp);
-
-            temp = strtok(NULL, " ");
-            quantidade = atoi(temp);
-
-            temp = strtok(NULL, " ");
-            promocao = temp[0] == 'P' ? 1 : 0;
-
+            preco_s        = strtok(NULL, " ");
+            quantidade_s   = strtok(NULL, " ");
+            promocao_s     = strtok(NULL, " ");
             codigo_cliente = strtok(NULL, " ");
+            mes_s          = strtok(NULL, " ");
 
-            temp = strtok(NULL, " ");
-            mes = atoi(temp);
+            preco = atof(preco_s);
+            quantidade = atoi(quantidade_s);
+            promocao = promocao_s[0] == 'P' ? 1 : 0;
+            mes = atoi(mes_s);
+
+            t += preco;
+        } else {
+            printf("Failed validation: %s", line);
+        
         }
 
-        /* printf("%d\n", strlen(codigo)); */
     }
-
 }
 
 int main(){
     
     /* parse_codigo_cliente_file("../testfiles/Clientes1.txt"); */
-    /* parse_codigo_produto_file("../testfiles/Produtos1.txt"); */
+    /* parse_strlen(codigo)codigo_produto_file("../testfiles/Produtos1.txt"); */
+    parse_compras_file("../testfiles/Compras1.txt");
     return 0;
 }
