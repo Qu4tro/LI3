@@ -4,13 +4,17 @@
 #include "catalogo_produtos.h"
 #include "catalogo_cliente.h"
 
+typedef struct cnode* client_node;
+typedef struct pnode* prod_node;
+
 typedef struct compra_node_s {
 
-    client_node cliente;
-    prod_node produto;
+    struct cnode* cliente;
+    struct pnode* produto;
     float preco;
-    int mes;
+    int quantidade;
     int estado_promocao;
+    int mes;
     struct compra_node_s* next;
 
 }* compra_node;
@@ -25,9 +29,9 @@ typedef struct compra_ll_s {
 
 
 compra_node create_compra(char* cliente, char* produto, 
-                     float preco, int mes, 
-                     int estado_promocao,
-                     client_node treeC, prod_node treeP);
+                          float preco, int quantidade, int mes, 
+                          int estado_promocao,
+                          client_node treeC, prod_node treeP);
 
 
 void inserir_compra(compra_node compra);

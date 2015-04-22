@@ -27,8 +27,8 @@ typedef struct compra_ll_s {
 */
 
 compra_node create_compra(char* cliente, char* produto, 
-                     float preco, int mes, 
-                     promocao estado_promocao,
+                     float preco, int mes, int quantidade, 
+                     int estado_promocao,
                      client_node treeC, prod_node treeP){
 
     compra_node compra = malloc(sizeof(struct compra_node_s));
@@ -36,6 +36,7 @@ compra_node create_compra(char* cliente, char* produto,
     compra -> cliente = procura_cliente(treeC, cliente);
     compra -> produto = procura_produto(treeP, produto);
     compra -> preco = preco;
+    compra -> quantidade = quantidade;
     compra -> mes = mes;
     compra -> estado_promocao = estado_promocao;
     compra -> next = NULL;
@@ -61,8 +62,8 @@ void inserir_compra(compra_node compra){
     client_node cliente = compra -> cliente;
     prod_node produto = compra -> produto;
 
-    inserir_ll(cliente -> compras, compra);
-    inserir_ll(produto -> compras, compra);
+    inserir_ll(cliente -> compras -> root, compra);
+    inserir_ll(produto -> compras -> root, compra);
 
 
 }

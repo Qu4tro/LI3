@@ -55,7 +55,7 @@ int* parse_compras_file(char* filename, client_node treeC, prod_node treeP){
     char* codigo_produto;
     char* preco_s; float preco;
     char* quantidade_s; int quantidade;
-    char* promocao_s; promocao estado_promocao;
+    char* promocao_s; int estado_promocao;
     char* mes_s; int mes;
 
     /*lines = [linhas lidas, linhas validadas] */
@@ -93,13 +93,14 @@ int* parse_compras_file(char* filename, client_node treeC, prod_node treeP){
             mes = atoi(mes_s);
 
             compra = create_compra(codigo_cliente, codigo_produto, 
-                                   preco, mes, 
+                                   preco, mes, quantidade,
                                    estado_promocao,
                                    treeC, treeP);
 
-            if (procura_cliente(treeC, codigo_produto) == NULL && 
-                procura_produto(treeP, codigo_cliente) == NULL){
+            if (procura_cliente(treeC, codigo_cliente) != NULL && 
+                procura_produto(treeP, codigo_produto) != NULL){
                     lines[1]++; 
+                    /* printf("Existe cliente: %d", procura_cliente(treeC, codigo_produto) != NULL); */
             }
         }
 
@@ -107,11 +108,3 @@ int* parse_compras_file(char* filename, client_node treeC, prod_node treeP){
 
     return lines;
 }
-
-/* int main(){ */
-    
-/*     parse_codigo_cliente_file("../testfiles/Clientes1.txt"); */
-/*     parse_codigo_produto_file("../testfiles/Produtos1.txt"); */
-/*     /1* parse_compras_file("../testfiles/Compras1.txt"); *1/ */
-/*     return 0; */
-/* } */
