@@ -1,9 +1,4 @@
-#include <ctype.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
-/* void printCharBuffer(char* b){ int i; for (i = 0; b[i] != '\0'; ++i) printf("%c ", b[i]); printf("\n");} */
+#include "validate.h"
 
 size_t is_empty(char *line){
 

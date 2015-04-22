@@ -1,19 +1,12 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
 #include "parse.h"
-#include "validate.h"
 
-#define MAXBUFFERPROD 10
-#define MAXBUFFERCLIE 10
-#define MAXBUFFERCOMP 60
-
-int parse_codigo_cliente_file(char* filename){
+client_node parse_codigo_cliente_file(char* filename){
 
     char line[MAXBUFFERCLIE];
     char* codigo;
     FILE* fp;
+
+    client_node tree = NULL;
 
     fp = fopen(filename, "r");
 
@@ -25,17 +18,19 @@ int parse_codigo_cliente_file(char* filename){
     while(fgets(line, MAXBUFFERCLIE, fp)){
 
         codigo = strtok(line, "\r\n");
-        printf("%d\n", strlen(codigo));
+        tree = insere_cliente(tree, codigo);
     }
 
-
+    return tree;
 }
 
-int parse_codigo_produto_file(char* filename){
+prod_node parse_codigo_produto_file(char* filename){
 
     char line[MAXBUFFERPROD];
     char* codigo;
     FILE* fp;
+
+    prod_node tree = NULL;
 
     fp = fopen(filename, "r");
 
@@ -47,26 +42,29 @@ int parse_codigo_produto_file(char* filename){
     while(fgets(line, MAXBUFFERPROD, fp)){
 
         codigo = strtok(line, "\r\n");
-        printf("%d\n", strlen(codigo));
+        tree = insert_produto(tree, codigo);
     }
 
-
+    return tree;
 }
 
-int parse_compras_file(char* filename){
+
+int* parse_compras_file(char* filename, client_node treeC, prod_node treeP){
 
     char* codigo_cliente;
     char* codigo_produto;
     char* preco_s; float preco;
     char* quantidade_s; int quantidade;
-    char* promocao_s; int promocao;
+    char* promocao_s; promocao estado_promocao;
     char* mes_s; int mes;
 
-    float t = 0;
+    /*lines = [linhas lidas, linhas validadas] */
+    int* lines = malloc(sizeof(int) * 2); 
 
     char line[MAXBUFFERCOMP];
     char* to_check;
     FILE* fp;
+    compra_node compra = NULL;
 
     fp = fopen(filename, "r");
 
@@ -77,7 +75,9 @@ int parse_compras_file(char* filename){
 
     while(fgets(line, MAXBUFFERCOMP, fp)){
 
-        to_check = strdup(line);
+        lines[0]++;
+
+        to_check = dupstr(line);
         if (validate_compras(to_check)){
 
             codigo_produto = strtok(line, " ");
@@ -89,22 +89,29 @@ int parse_compras_file(char* filename){
 
             preco = atof(preco_s);
             quantidade = atoi(quantidade_s);
-            promocao = promocao_s[0] == 'P' ? 1 : 0;
+            estado_promocao = promocao_s[0] == 'P' ? 1 : 0;
             mes = atoi(mes_s);
 
-            t += preco;
-        } else {
-            printf("Failed validation: %s", line);
-        
+            compra = create_compra(codigo_cliente, codigo_produto, 
+                                   preco, mes, 
+                                   estado_promocao,
+                                   treeC, treeP);
+
+            if (procura_cliente(treeC, codigo_produto) == NULL && 
+                procura_produto(treeP, codigo_cliente) == NULL){
+                    lines[1]++; 
+            }
         }
 
     }
+
+    return lines;
 }
 
-int main(){
+/* int main(){ */
     
-    /* parse_codigo_cliente_file("../testfiles/Clientes1.txt"); */
-    /* parse_strlen(codigo)codigo_produto_file("../testfiles/Produtos1.txt"); */
-    parse_compras_file("../testfiles/Compras1.txt");
-    return 0;
-}
+/*     parse_codigo_cliente_file("../testfiles/Clientes1.txt"); */
+/*     parse_codigo_produto_file("../testfiles/Produtos1.txt"); */
+/*     /1* parse_compras_file("../testfiles/Compras1.txt"); *1/ */
+/*     return 0; */
+/* } */

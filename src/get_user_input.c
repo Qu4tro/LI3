@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "validate.h"
+#include "get_user_input.h"
 
 char get_letter(){
 
@@ -11,7 +6,10 @@ char get_letter(){
     char* input;
     
     while (1){
-        fgets(line, sizeof(line), stdin);
+        if (fgets(line, sizeof(line), stdin) == NULL){
+            fprintf(stderr, "fgets returns NULL\n");
+            exit(1);
+        }
 
         input = strtok(line, "\r\n");
 
@@ -32,7 +30,10 @@ size_t get_unsigned(size_t min_range, size_t max_range){
     
     while (1){
         number = 0;
-        fgets(line, sizeof(line), stdin);
+        if (fgets(line, sizeof(line), stdin) == NULL){
+            fprintf(stderr, "fgets returns NULL\n");
+            exit(1);
+        }
 
         input = strtok(line, "\r\n");
 
@@ -66,7 +67,10 @@ char* get_codigo_cliente(){
     char* input;
     
     while (1){
-        fgets(line, sizeof(line) * 1024, stdin);
+        if (fgets(line, sizeof(char) * 1024, stdin) == NULL){
+            fprintf(stderr, "fgets returns NULL\n");
+            exit(1);
+        }
 
         input = strtok(line, "\r\n");
 
@@ -83,7 +87,10 @@ char* get_codigo_produto(){
     char* input;
     
     while (1){
-        fgets(line, sizeof(line) * 1024, stdin);
+        if (fgets(line, sizeof(char) * 1024, stdin) == NULL){
+            fprintf(stderr, "fgets returns NULL\n");
+            exit(1);
+        }
 
         input = strtok(line, "\r\n");
 
@@ -100,7 +107,10 @@ char* get_filename(){
     char* input;
     
     while (1){
-        fgets(line, sizeof(line) * 1024, stdin);
+        if (fgets(line, sizeof(char) * 1024, stdin) == NULL){
+            fprintf(stderr, "fgets returns NULL\n");
+            exit(1);
+        }
 
         input = strtok(line, "\r\n");
 

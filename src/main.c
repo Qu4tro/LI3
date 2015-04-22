@@ -1,14 +1,17 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#include "menu.h"
+#include "interface.h"
 #include "get_user_input.h"
 
 int main () {
 
     print_menu(); 	
-    puts("Escolha uma opção:");
-    handle_queries(get_opcao());
+    while (1){
+        puts("Escolha uma opção:");
+        handle_queries(get_opcao());
+        puts("\n");
+    }
     return 1;
 
 }

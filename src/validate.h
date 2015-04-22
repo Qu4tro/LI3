@@ -1,3 +1,12 @@
+#ifndef VALIDATE_H
+#define VALIDATE_H
+
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+
 /* Retorna true quando a string line é composta por uma única letra */
 size_t validate_single_letter(char *line);
 
@@ -16,3 +25,5 @@ size_t validate_codigo_produto(char *line);
 /* Retorna true quando a string line é uma linha do ficheiro de compras válida
  * (codigo produto, preço, quantidade, promoção ou não. código cliente, mês)  */
 size_t validate_compras(char *line);
+
+#endif
